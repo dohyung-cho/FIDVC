@@ -149,9 +149,11 @@ int ndim
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 {
     double *Z, *S, *T, *W, *F;
-    int  i, MN, nrows, ncols, npages, vol, ndim, newXndim, Xndim, *newdims;
-    const int *dims, *Xdims;
-    
+//     int  i, MN, nrows, ncols, npages, vol, ndim, newXndim, Xndim, *newdims;
+//     const int *dims, *Xdims;
+    int  i, MN, nrows, ncols, npages, vol, ndim, newXndim, Xndim;
+    mwSize *newdims;
+    const mwSize *dims, *Xdims;
     
     /* Check for input errors */
     if (nlhs>1)
@@ -175,7 +177,8 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     
     ndim = mxGetNumberOfDimensions(IN_Z);
     dims = mxGetDimensions(IN_Z);
-    newdims = (int*) calloc(ndim-1, sizeof(int));
+//     newdims = (int*) calloc(ndim-1, sizeof(int));
+    newdims = (mwSize*) calloc(ndim-1, sizeof(mwSize));
        
     MN=1;
     for (i = 0; i < Xndim; i++) {MN =MN*Xdims[i];};  /*Total number of interpolations points in 1 image*/
@@ -186,14 +189,16 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         
          
         if ((Xndim==2) && (Xdims[1]==1))  {newXndim=newXndim-1; }  /*Check if interpolate along column vectors*/
-        newdims = (int*) calloc(newXndim+1, sizeof(int));           /*Allocate space for the new number of dimensions for output*/
+//         newdims = (int*) calloc(newXndim+1, sizeof(int));           /*Allocate space for the new number of dimensions for output*/
+        newdims = (mwSize*) calloc(newXndim+1, sizeof(mwSize));           /*Allocate space for the new number of dimensions for output*/
         for (i = 0; i < newXndim; i++) {newdims[i]=Xdims[i];};  /*Copy original dimenstions*/
         newdims[newXndim]=dims[3];                             /*Add the number of  images as a last dimenstion*/
         newXndim=newXndim+1;                                       /*Set the new number of dimenstions*/ 
         vol=dims[3];}
     else
     {
-       newdims = (int*) calloc(newXndim, sizeof(int));
+//        newdims = (int*) calloc(newXndim, sizeof(int));
+       newdims = (mwSize*) calloc(newXndim, sizeof(mwSize));
        for (i = 0; i < newXndim; i++) {newdims[i]=Xdims[i];};
         
     }

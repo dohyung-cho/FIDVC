@@ -37,5 +37,4 @@ pathstr = fileparts(pathtofile);
 mex(pathtofile,'-outdir',pathstr);
 
 Output_images = mirt3D_mexinterp(Input_images, XI,YI,ZI);
-
 end
